@@ -1,49 +1,64 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import {
+  StyleSheet, Text, View, ScrollView, Platform
+} from 'react-native';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+/*
+  Responsável pela lógica de view
+  Para definir um novo componente, deve se criar uma classe que extends o Component do react
+*/
+export default class App extends Component {
+  // Todo componente deve implementar esse método e que deve retornar um JSX
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <View style={styles.header}>
+          <Text style={styles.headerText}> Minicurso GoNative</Text>
+        </View>
+
+        <ScrollView contentContainerStyle={styles.repoList}>
+          <View style={styles.repo}></View>
+          <View style={styles.repo}></View>
+          <View style={styles.repo}></View>
+          <View style={styles.repo}></View>
+          <View style={styles.repo}></View>
+        </ScrollView>
       </View>
     );
   }
 }
 
+// Classe de estilos, que se equipara com o CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#333',
+  },
+
+  header: {
+    // Verificar se o app está em IOS ou Android, para setar a altura do header
+    height: (Platform.OS === 'ios') ? 70 : 50,
+    paddingTop: (Platform.OS === 'ios') ? 20 : 0,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignItems: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+
+  repoList: {
+    padding: 20
   },
+
+  repo: {
+    padding: 20,
+    backgroundColor: '#FFF',
+    height: 120,
+    marginBottom: 20,
+    borderRadius: 5,
+  },
+
 });
