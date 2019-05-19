@@ -3,11 +3,32 @@ import {
   StyleSheet, Text, View, ScrollView, Platform
 } from 'react-native';
 
+import Repo from './components/Repo';
+
 /*
   Responsável pela lógica de view
   Para definir um novo componente, deve se criar uma classe que extends o Component do react
 */
 export default class App extends Component {
+  // O estado da aplicação
+  // A cada alteração das variáveis de dentro do estado, o método de render é re-executado, atualizando a view
+  state = {
+    repos: [
+      {
+        id: 1,
+        thumbnail: '',
+        title: 'rocketseat.com.br',
+        author: 'rocketseat',
+      },
+      {
+        id: 2,
+        thumbnail: '',
+        title: 'rocketnative',
+        author: 'diego',
+      },
+    ],
+  }
+
   // Todo componente deve implementar esse método e que deve retornar um JSX
   render() {
     return (
@@ -17,11 +38,7 @@ export default class App extends Component {
         </View>
 
         <ScrollView contentContainerStyle={styles.repoList}>
-          <View style={styles.repo}></View>
-          <View style={styles.repo}></View>
-          <View style={styles.repo}></View>
-          <View style={styles.repo}></View>
-          <View style={styles.repo}></View>
+          { this.state.repos.map(repo => <Repo key={repo.id} data={repo} /> ) }
         </ScrollView>
       </View>
     );
@@ -51,14 +68,6 @@ const styles = StyleSheet.create({
 
   repoList: {
     padding: 20
-  },
-
-  repo: {
-    padding: 20,
-    backgroundColor: '#FFF',
-    height: 120,
-    marginBottom: 20,
-    borderRadius: 5,
   },
 
 });
