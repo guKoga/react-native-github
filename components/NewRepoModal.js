@@ -8,6 +8,11 @@ import {
  * Classe que cria um modal de cadastro de novos repositórios listados na tela inicial
  */
 export default class NewRepoModal extends Component {
+
+    state = {
+        newRepoText: '',
+    };
+
     render() {
         return (
             <Modal animationType='fade' transparent={true} visible={this.props.visible}>
@@ -17,7 +22,10 @@ export default class NewRepoModal extends Component {
                         <TextInput autoFocus autoCapitalize='none'
                             style={styles.boxInput}
                             underlineColorAndroid='rgba(0, 0, 0, 0)'
-                            placeholder='organização/repositório' />
+                            placeholder='organização/repositório'
+                            value={this.state.newRepoText}
+                            onChangeText={newRepoText => this.setState({ newRepoText })}
+                        />
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={[styles.button, styles.cancelButton]}
@@ -26,7 +34,7 @@ export default class NewRepoModal extends Component {
                             </TouchableOpacity>
 
                             <TouchableOpacity style={[styles.button, styles.submitButton]}
-                                onPress={this.props.onAdd}>
+                                onPress={() => this.props.onAdd(this.state.newRepoText)}>
                                 <Text style={styles.buttonText}>Adicionar</Text>
                             </TouchableOpacity>
                         </View>

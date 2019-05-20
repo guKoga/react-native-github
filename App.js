@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, ScrollView, Platform, TouchableOpacity
+  StyleSheet, Text, View, ScrollView, Platform, TouchableOpacity, YellowBox,
 } from 'react-native';
 
 import Repo from './components/Repo';
@@ -15,24 +15,28 @@ export default class App extends Component {
   // A cada alteração das variáveis de dentro do estado, o método de render é re-executado, atualizando a view
   state = {
     modalVisible: false,
-    repos: [
-      {
-        id: 1,
-        thumbnail: '',
-        title: 'rocketseat.com.br',
-        author: 'rocketseat',
-      },
-      {
-        id: 2,
-        thumbnail: '',
-        title: 'rocketnative',
-        author: 'diego',
-      },
-    ],
+    repos: [],
   }
 
-  _addRepository = () => {
+  _addRepository = async (newRepoText) => {
 
+    const repoCall = await fetch(`https://api.github.com/repos/${newRepoText}`);
+    const response = await repoCall.json();
+
+    const repository = {
+      id: response.id,
+      thumbnail: response.owner.avatar_url,
+      title: response.name,
+      author: response.owner.login,
+    }
+
+    this.setState({
+      modalVisible: false,
+      repos: [
+        ...this.state.repos,
+        repository,
+      ],
+    });
   };
 
   // Todo componente deve implementar esse método e que deve retornar um JSX
