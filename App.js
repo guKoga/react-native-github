@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, ScrollView, Platform
+  StyleSheet, Text, View, ScrollView, Platform, TouchableOpacity
 } from 'react-native';
 
 import Repo from './components/Repo';
+import NewRepoModal from './components/NewRepoModal';
 
 /*
   Responsável pela lógica de view
@@ -13,6 +14,7 @@ export default class App extends Component {
   // O estado da aplicação
   // A cada alteração das variáveis de dentro do estado, o método de render é re-executado, atualizando a view
   state = {
+    modalVisible: false,
     repos: [
       {
         id: 1,
@@ -29,17 +31,29 @@ export default class App extends Component {
     ],
   }
 
+  _addRepository = () => {
+
+  };
+
   // Todo componente deve implementar esse método e que deve retornar um JSX
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}> Minicurso GoNative</Text>
+          <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
+            <Text style={styles.headerButton}>+</Text>
+          </TouchableOpacity>
+
         </View>
 
         <ScrollView contentContainerStyle={styles.repoList}>
-          { this.state.repos.map(repo => <Repo key={repo.id} data={repo} /> ) }
+          {this.state.repos.map(repo => <Repo key={repo.id} data={repo} />)}
         </ScrollView>
+
+        <NewRepoModal onCancel={() => this.setState({ modalVisible: false })}
+          onAdd={this._addRepository}
+          visible={this.state.modalVisible} />
       </View>
     );
   }
@@ -57,8 +71,10 @@ const styles = StyleSheet.create({
     height: (Platform.OS === 'ios') ? 70 : 50,
     paddingTop: (Platform.OS === 'ios') ? 20 : 0,
     backgroundColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
 
   headerText: {
@@ -67,7 +83,12 @@ const styles = StyleSheet.create({
   },
 
   repoList: {
-    padding: 20
+    padding: 20,
+  },
+
+  headerButton: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 
 });
